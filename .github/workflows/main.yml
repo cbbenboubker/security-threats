@@ -14,12 +14,14 @@ jobs:
           command: test
           args: --sarif-file-output=snyk.sarif --all-projects
       - name: Zip reposiroty code #Generamos un fichero zip del repositorio
+        if: success() #Se ejecutará el run solo si el escaneo de Snyk es seguro
         run: zip -r repository_code.zip .
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: snyk.sarif
       - name: Upload code zip as artifact #Subimos el zip generado como un artefacto
+        if: success() #Se creará el artefacto solo si el escaneo de Snyk es seguro
         uses: actions/upload-artifact@v2
         with:
           name: repository_code
