@@ -13,6 +13,8 @@ jobs:
         with:
           command: test
           args: --sarif-file-output=snyk.sarif --all-projects
+      - name: Zip reposiroty code
+        run: zip -r repository_code.zip .
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v2
         with:
